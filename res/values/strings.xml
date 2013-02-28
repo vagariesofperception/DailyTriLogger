@@ -1,0 +1,17 @@
+<resources>
+
+    <string name="app_name">DailyTriLogger</string>
+    <string name="title_section2">Summaries</string>
+    <string name="title_section1">Logger</string>
+    <string name="title_daily_trilogger">Daily Tri Logger</string>
+    <string name="logDate">Log Date</string>
+    <string name="logMorningStr">M</string>
+    <string name="logAfternoonStr">A</string>
+    <string name="logEveningStr">E</string>
+    <string name="updateTxt">Update Log</string>
+
+    <color name="daily_trilogger_color_bkgnd">#000000</color>
+    <color name="daily_trilogger_color_fgnd">#FFFFFF</color>
+    <color name="daily_tweet_color_bkgnd">#f7f9f6</color>
+
+</resources>

@@ -1,0 +1,161 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/summaryLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/daily_trilogger_color_bkgnd"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp" >
+    <TableLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/loggerTbl"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="10sp"
+        android:stretchColumns="1" >
+        <TableRow android:layout_weight="0.2">
+            <TextView
+                android:id="@+id/logDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.50"
+                android:background="@color/daily_trilogger_color_bkgnd"
+                android:text="@string/logDate"
+                android:textColor="@color/daily_trilogger_color_fgnd"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/logEmpty1"
+                android:layout_width="5sp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:background="@color/daily_trilogger_color_bkgnd"
+                android:textColor="@color/daily_trilogger_color_fgnd"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/logDateVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:background="@color/daily_trilogger_color_bkgnd"
+                android:textColor="@color/daily_trilogger_color_fgnd"
+                android:textSize="15sp" />
+        </TableRow>
+        <TableRow android:layout_marginTop="20dp"
+             android:layout_marginBottom="20dp"
+             android:layout_weight="0.2">
+            <TextView
+                android:id="@+id/logMorningTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.20"
+                android:background="@color/daily_trilogger_color_bkgnd"
+                android:text="@string/logMorningStr"
+                android:textColor="@color/daily_trilogger_color_fgnd"
+                android:textSize="15sp"
+                android:layout_marginRight="10dp" />
+            <EditText
+                android:id="@+id/logMorning"
+                android:layout_weight="0.70"
+                android:layout_width="wrap_content"
+                android:background="@drawable/edittext_bg"
+                android:gravity="top|left"
+                android:maxLength="140"
+                android:lines="5"
+                android:inputType="textMultiLine"
+                android:scrollHorizontally="false"
+                android:imeOptions="actionDone"
+                android:textColor="@color/daily_trilogger_color_fgnd"
+                android:textSize="15sp" />
+            
+        </TableRow>
+ 
+        <TableRow android:layout_marginTop="20dp"
+             android:layout_marginBottom="20dp"
+             android:layout_weight="0.2">
+            <TextView
+                android:id="@+id/logAfternoonTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.20"
+                android:background="@color/daily_trilogger_color_bkgnd"
+                android:text="@string/logAfternoonStr"
+                android:textColor="@color/daily_trilogger_color_fgnd"
+                android:textSize="15sp" 
+                android:layout_marginRight="10dp"/>
+            <EditText
+                android:id="@+id/logAfternoon"
+                android:layout_weight="0.70"
+                android:background="@drawable/edittext_bg"
+                android:gravity="top|left"
+                android:lines="5"
+                android:maxLength="140"
+                android:inputType="textMultiLine"
+                android:scrollHorizontally="false"
+                android:imeOptions="actionDone"
+                android:textColor="@color/daily_trilogger_color_fgnd"
+                android:textSize="15sp" />
+            
+        </TableRow>
+        <TableRow android:layout_marginTop="20dp"
+             android:layout_marginBottom="20dp"
+             android:layout_weight="0.2">
+            <TextView
+                android:id="@+id/logEveningTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.20"
+                android:background="@color/daily_trilogger_color_bkgnd"
+                android:text="@string/logEveningStr"
+                android:textColor="@color/daily_trilogger_color_fgnd"
+                android:textSize="15sp"
+                android:layout_marginRight="10dp" />
+            <EditText
+                android:id="@+id/logEvening"
+                android:layout_weight="0.70"
+                android:background="@drawable/edittext_bg"
+                android:gravity="top|left"
+                android:lines="5"
+                android:inputType="textMultiLine"
+                android:maxLength="140"
+                android:scrollHorizontally="false"
+                android:imeOptions="actionDone"
+                android:textColor="@color/daily_trilogger_color_fgnd"
+                android:textSize="15sp" />
+            
+        </TableRow>
+         <TableRow
+            android:layout_weight="0.2"
+            android:paddingTop="20dp" >
+
+            <TextView
+                android:id="@+id/logEmpty5"
+                android:layout_width="10sp"
+                android:layout_height="wrap_content"
+                weight="1"
+                android:background="@color/daily_trilogger_color_bkgnd"
+                android:textColor="@color/daily_trilogger_color_bkgnd"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/updateLogBtn"
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                weight="1"
+                android:onClick="updateLogButtonClick"
+                android:text="@string/updateTxt" />
+
+            <TextView
+                android:id="@+id/logEmpty6"
+                android:layout_width="10sp"
+                android:layout_height="wrap_content"
+                weight="1"
+                android:background="@color/daily_trilogger_color_bkgnd"
+                android:textColor="@color/daily_trilogger_color_bkgnd"
+                android:textSize="15sp" />
+        </TableRow>
+        </TableLayout>
+        
+  </RelativeLayout>
