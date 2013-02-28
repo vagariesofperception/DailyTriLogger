@@ -21,7 +21,8 @@
         </activity>
         <activity
             android:name=".DailyTriLogActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize" >
+            android:configChanges="keyboardHidden|orientation|screenSize" 
+            android:windowSoftInputMode="adjustNothing">
         </activity>
     </application>
 

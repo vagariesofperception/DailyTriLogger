@@ -1,8 +1,11 @@
 package fun.app.dailytrilogger;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.view.KeyEvent;
 import android.view.View;
@@ -62,7 +65,7 @@ public class DailyTriLogActivity extends Activity implements TextView.OnEditorAc
 		
 		if (eveningTweet == null)
 			eveningTweet = (EditText) findViewById(R.id.logEvening);
-
+		
 
 		// This is to prevent automatic popping of keyboard
 		// for the edittext
@@ -85,7 +88,54 @@ public class DailyTriLogActivity extends Activity implements TextView.OnEditorAc
 			currentTweetM = tweetS.get(0);
 			currentTweetA = tweetS.get(1);
 			currentTweetE = tweetS.get(2);
+			if (currentTweetM != null && currentTweetM.length() > 0)
+				morningTV.setText("M (" + String.valueOf(currentTweetM.length()) + " chars)");
+			if (currentTweetA != null && currentTweetA.length() > 0)
+				afternoonTV.setText("A (" + String.valueOf(currentTweetA.length()) + " chars)");
 		}
+		
+
+		morningTweet.addTextChangedListener(new TextWatcher() {
+			public void afterTextChanged(Editable s) {
+				int len = s.length();
+				morningTV.setText("M (" + String.valueOf(len) + " chars)");
+			}
+			 public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+		     public void onTextChanged(CharSequence s, int start, int before, int count){}
+		    
+		});
+		
+		afternoonTweet.addTextChangedListener(new TextWatcher() {
+			public void afterTextChanged(Editable s) {
+				int len = s.length();
+				afternoonTV.setText("A (" + String.valueOf(len) + " chars)");
+			}
+			 public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+		     public void onTextChanged(CharSequence s, int start, int before, int count){}
+		    
+		});
+		
+		eveningTweet.addTextChangedListener(new TextWatcher() {
+			public void afterTextChanged(Editable s) {
+				int len = s.length();
+				eveningTV.setText("E (" + String.valueOf(len) + " chars)");
+			}
+			public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+		    public void onTextChanged(CharSequence s, int start, int before, int count){}
+		    
+		});
+		
+		morningTweet.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if (event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+					 InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+					 im.hideSoftInputFromWindow(v.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+					 return true;
+				 }
+				return false;
+			}
+		});
 		
 		//mediMap = (HashMap) intent.getSerializableExtra(MediRunMainActivity.MEDIMAP);
 
