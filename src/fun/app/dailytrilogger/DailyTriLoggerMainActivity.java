@@ -1,6 +1,7 @@
 package fun.app.dailytrilogger;
 
 import java.util.Date;
+import java.util.NoSuchElementException;
 
 import java.util.ArrayList;
 
@@ -145,13 +146,16 @@ public class DailyTriLoggerMainActivity extends FragmentActivity {
 						intent.putExtra(YEAR, String.valueOf(year));
 						intent.putExtra(MONTH, String.valueOf(month));
 						intent.putExtra(DAY, String.valueOf(dayOfMonth));
-						ArrayList<String> logTextArr = new ArrayList<String>();
-						boolean preExists  = dailyTriLogStore.getLogTextForDate(year, month, dayOfMonth, logTextArr);
-						if (preExists) {
+						try {
+							ArrayList<String> logTextArr  = dailyTriLogStore.getLogTextForDate(year, month, dayOfMonth);
 							intent.putStringArrayListExtra(EXISTING_LOGTEXT, logTextArr);
+						} 
+						catch (NoSuchElementException e) {
+							
 						}
-						getActivity().startActivityForResult(intent, LOGGER_ACTIVITY);
-
+						finally {
+							getActivity().startActivityForResult(intent, LOGGER_ACTIVITY);
+						}
 					}
 				});
 
@@ -179,7 +183,7 @@ public class DailyTriLoggerMainActivity extends FragmentActivity {
 			String tweetA = data.getStringExtra(CURRENT_TWEET_AFTERNOON);
 			String tweetE = data.getStringExtra(CURRENT_TWEET_EVENING);
 			Log.i(logTag, "onActivityResult: Got current date " + currentDate.toString() +  " Tweet:" 
-			  + "(" + tweetM + ", " + tweetA + ", " + tweetE + ")");
+					+ "(" + tweetM + ", " + tweetA + ", " + tweetE + ")");
 			dailyTriLogStore.appendTweet(currentDate, tweetM, tweetA, tweetE);
 		} else if (resultCode == RESULT_OK && requestCode == SUMMARY_ACTIVITY) {
 			Date currentDate = (Date)data.getSerializableExtra(CURRENT_SUMMARY_DATE);
@@ -189,5 +193,5 @@ public class DailyTriLoggerMainActivity extends FragmentActivity {
 		}
 	}
 
-	
+
 }

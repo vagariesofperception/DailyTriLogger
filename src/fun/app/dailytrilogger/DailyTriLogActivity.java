@@ -81,16 +81,26 @@ public class DailyTriLogActivity extends Activity /*implements TextView.OnEditor
 		currentTweetM = new String();
 		currentTweetA = new String();
 		currentTweetE = new String();
+        
 		if (intent.hasExtra(DailyTriLoggerMainActivity.EXISTING_LOGTEXT))
 		{
 			ArrayList<String> tweetS = intent.getStringArrayListExtra(DailyTriLoggerMainActivity.EXISTING_LOGTEXT);
 			currentTweetM = tweetS.get(0);
 			currentTweetA = tweetS.get(1);
 			currentTweetE = tweetS.get(2);
-			if (currentTweetM != null && currentTweetM.length() > 0)
+			if (currentTweetM != null && currentTweetM.length() > 0) {
 				morningTV.setText("M (" + String.valueOf(currentTweetM.length()) + " chars)");
-			if (currentTweetA != null && currentTweetA.length() > 0)
+				morningTweet.setText(currentTweetM);
+			}
+			if (currentTweetA != null && currentTweetA.length() > 0) {
 				afternoonTV.setText("A (" + String.valueOf(currentTweetA.length()) + " chars)");
+				afternoonTweet.setText(currentTweetA);
+			}
+			if (currentTweetE != null && currentTweetE.length() > 0) {
+				eveningTV.setText("E (" + String.valueOf(currentTweetE.length()) + " chars)");
+				eveningTweet.setText(currentTweetE);
+			}
+				
 		}
 		
 
