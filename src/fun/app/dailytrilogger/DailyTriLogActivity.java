@@ -23,14 +23,13 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
-public class DailyTriLogActivity extends Activity implements TextView.OnEditorActionListener {
+public class DailyTriLogActivity extends Activity /*implements TextView.OnEditorActionListener*/ {
 	private TextView logDate;
 	private TextView logDateVal;
 	private TextView morningTV, afternoonTV, eveningTV;
 	private EditText morningTweet, afternoonTweet, eveningTweet;
 
 	private int currentYear, currentMonth, currentDay;
-	private int currentMediMins;
 	private Date currentDate;
 	
 	private String currentTweetM, currentTweetA, currentTweetE;
@@ -131,11 +130,42 @@ public class DailyTriLogActivity extends Activity implements TextView.OnEditorAc
 				if (event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
 					 InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 					 im.hideSoftInputFromWindow(v.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+					 String s = v.getText().toString();
+					 currentTweetM = s;
 					 return true;
 				 }
 				return false;
 			}
 		});
+		
+		afternoonTweet.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if (event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+					 InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+					 im.hideSoftInputFromWindow(v.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+					 String s = v.getText().toString();
+					 currentTweetA = s;
+					 return true;
+				 }
+				return false;
+			}
+		});
+		
+		eveningTweet.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if (event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+					 InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+					 im.hideSoftInputFromWindow(v.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+					 String s = v.getText().toString();
+					 currentTweetE = s;
+					 return true;
+				 }
+				return false;
+			}
+		});
+		
 		
 		//mediMap = (HashMap) intent.getSerializableExtra(MediRunMainActivity.MEDIMAP);
 
@@ -156,30 +186,49 @@ public class DailyTriLogActivity extends Activity implements TextView.OnEditorAc
 		Log.i(logTag, "updateLogButtonClick called!");
         Intent intent = new Intent(this, DailyTriLoggerMainActivity.class);
         intent.putExtra(DailyTriLoggerMainActivity.CURRENT_LOG_DATE, currentDate);
-        intent.putExtra(DailyTriLoggerMainActivity.CURRENT_TWEET_MORNING, String.valueOf(currentTweetM));
-        intent.putExtra(DailyTriLoggerMainActivity.CURRENT_TWEET_AFTERNOON, String.valueOf(currentTweetA));
-        intent.putExtra(DailyTriLoggerMainActivity.CURRENT_TWEET_EVENING, String.valueOf(currentTweetE));
+        intent.putExtra(DailyTriLoggerMainActivity.CURRENT_TWEET_MORNING, currentTweetM);
+        intent.putExtra(DailyTriLoggerMainActivity.CURRENT_TWEET_AFTERNOON, currentTweetA);
+        intent.putExtra(DailyTriLoggerMainActivity.CURRENT_TWEET_EVENING, currentTweetE);
         // Activity finished ok, return the data
         setResult(RESULT_OK, intent);
         finish();
 	}
 
-	@Override
+	/*@Override
 	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-         return true;
-		/*boolean handled = false;
+		boolean handled = false;
 		if (actionId == EditorInfo.IME_ACTION_DONE) {
 			String s = v.getText().toString();
-			Log.i(logTag, "Medi Mins:" + s + " on " + String.valueOf(currentMonth) + "/" + 
+			Log.i(logTag, "Tweet:" + s + " on " + String.valueOf(currentMonth) + "/" + 
 					String.valueOf(currentDay) + "/" + String.valueOf(currentYear));
+			int id = v.getId();
 			try {
-			currentMediMins = Integer.parseInt(s);
+				switch (id) {
+				case R.id.logMorning:
+					currentTweetM = s;
+					currentTweetA = afternoonTweet.getText().toString();
+					currentTweetE = eveningTweet.getText().toString();
+					break;
+				case R.id.logAfternoon:
+					currentTweetM = morningTweet.getText().toString();
+					currentTweetA = s;
+					currentTweetE = eveningTweet.getText().toString();
+					break;
+				case R.id.logEvening:
+					currentTweetM = morningTweet.getText().toString();
+					currentTweetA = afternoonTweet.getText().toString();
+					currentTweetE = s;
+					break;
+				default:
+					break;
+				}
 			}
 			catch (NumberFormatException e) {
-				currentMediMins = 0;
+				currentTweetM = morningTweet.getText().toString();
+				currentTweetA = afternoonTweet.getText().toString();
+				currentTweetE = eveningTweet.getText().toString();
 			}
-			//mediMap.put(currentDate, Integer.decode(s));
 		}
-		return handled;*/
-	}
+		return handled;
+	}*/
 }
