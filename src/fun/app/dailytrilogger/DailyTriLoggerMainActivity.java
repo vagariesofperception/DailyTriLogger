@@ -16,6 +16,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
@@ -41,6 +43,7 @@ public class DailyTriLoggerMainActivity extends FragmentActivity {
 	private DailyTriLogStore dailyTriLogStore;
 	private final static int LOGGER_ACTIVITY = 1;
 	private final static int SUMMARY_ACTIVITY = 1;
+	private boolean disableClearData;
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
@@ -58,6 +61,7 @@ public class DailyTriLoggerMainActivity extends FragmentActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		disableClearData = true;
 		setContentView(R.layout.activity_daily_tri_logger_main);
 
 		// Create the adapter that will return a fragment for each of the three primary sections
@@ -73,6 +77,38 @@ public class DailyTriLoggerMainActivity extends FragmentActivity {
 			dailyTriLogStore = DailyTriLogStore.getInstance();
 			dailyTriLogStore.bootUp(this);
 		}
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.activity_daily_tri_logger_main, menu);
+		Log.i(logTag, "Inflated menu!");
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.clearData:
+			Log.i(logTag, "CLEARING ALL DATA...");
+			if (disableClearData == false)
+   			  dailyTriLogStore.clearAllData();
+			Log.i(logTag, "CLEARED ALL DATA!");
+			break;
+		case R.id.emailId:
+			break;
+		case R.id.backupData:
+			String email = new String("");
+			String subject = new String("[DailyTriLogger Data]");
+			dailyTriLogStore.prepareDataForEmail(this);
+			String emailText = dailyTriLogStore.getLogTextForEmail();
+			dailyTriLogStore.email(this, email, null, subject, "[Attached]");
+			break;
+		default:
+			return super.onOptionsItemSelected(item);
+			
+		}
+		return true;
 	}
 
 	/**

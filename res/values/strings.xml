@@ -13,5 +13,10 @@
     <color name="daily_trilogger_color_bkgnd">#000000</color>
     <color name="daily_trilogger_color_fgnd">#FFFFFF</color>
     <color name="daily_tweet_color_bkgnd">#f7f9f6</color>
+    
+    <string name="clearDataTxt">Clear All Data</string>
+    <string name="backUpTxt">Email Data</string>
+    <string name="loadDataTxt">Load Data</string>
+    <string name="emailTxt">Enter Email-Id</string>
 
 </resources>

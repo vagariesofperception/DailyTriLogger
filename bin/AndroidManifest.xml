@@ -24,6 +24,11 @@
             android:configChanges="keyboardHidden|orientation|screenSize" 
             android:windowSoftInputMode="adjustNothing">
         </activity>
+        <provider
+        android:name="DailyTriLoggerContentProvider"
+        android:authorities="fun.app.dailytrilogger"
+        android:exported="true"
+        /> 
     </application>
 
 </manifest>

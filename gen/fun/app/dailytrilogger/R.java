@@ -20,33 +20,44 @@ public final class R {
         public static final int ic_launcher=0x7f020001;
     }
     public static final class id {
-        public static final int daily_trilogger_datepicker=0x7f070011;
-        public static final int daily_trilogger_summary_report=0x7f070012;
-        public static final int datePickerTbl=0x7f070010;
-        public static final int logAfternoon=0x7f07000a;
-        public static final int logAfternoonTV=0x7f070009;
-        public static final int logDate=0x7f070004;
-        public static final int logDateVal=0x7f070006;
-        public static final int logEmpty1=0x7f070005;
-        public static final int logEmpty5=0x7f07000d;
-        public static final int logEmpty6=0x7f07000f;
-        public static final int logEvening=0x7f07000c;
-        public static final int logEveningTV=0x7f07000b;
-        public static final int logMorning=0x7f070008;
-        public static final int logMorningTV=0x7f070007;
-        public static final int loggerTbl=0x7f070003;
-        public static final int pager=0x7f070000;
-        public static final int pager_title_strip=0x7f070001;
-        public static final int summaryLayout=0x7f070002;
-        public static final int updateLogBtn=0x7f07000e;
+        public static final int backupData=0x7f080014;
+        public static final int clearData=0x7f080016;
+        public static final int daily_trilogger_datepicker=0x7f080011;
+        public static final int daily_trilogger_summary_report=0x7f080012;
+        public static final int datePickerTbl=0x7f080010;
+        public static final int emailId=0x7f080013;
+        public static final int loadData=0x7f080015;
+        public static final int logAfternoon=0x7f08000a;
+        public static final int logAfternoonTV=0x7f080009;
+        public static final int logDate=0x7f080004;
+        public static final int logDateVal=0x7f080006;
+        public static final int logEmpty1=0x7f080005;
+        public static final int logEmpty5=0x7f08000d;
+        public static final int logEmpty6=0x7f08000f;
+        public static final int logEvening=0x7f08000c;
+        public static final int logEveningTV=0x7f08000b;
+        public static final int logMorning=0x7f080008;
+        public static final int logMorningTV=0x7f080007;
+        public static final int loggerTbl=0x7f080003;
+        public static final int pager=0x7f080000;
+        public static final int pager_title_strip=0x7f080001;
+        public static final int summaryLayout=0x7f080002;
+        public static final int updateLogBtn=0x7f08000e;
     }
     public static final class layout {
         public static final int activity_daily_tri_logger_main=0x7f030000;
         public static final int activity_logger=0x7f030001;
         public static final int activity_summarizer=0x7f030002;
     }
+    public static final class menu {
+        public static final int activity_daily_tri_logger_main=0x7f070000;
+    }
     public static final class string {
         public static final int app_name=0x7f040000;
+        public static final int backUpTxt=0x7f04000a;
+        public static final int clearDataTxt=0x7f040009;
+        public static final int emailTxt=0x7f04000c;
+        public static final int loadDataTxt=0x7f04000b;
         public static final int logAfternoonStr=0x7f040006;
         public static final int logDate=0x7f040004;
         public static final int logEveningStr=0x7f040007;

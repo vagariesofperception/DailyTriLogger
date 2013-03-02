@@ -108,6 +108,7 @@ public class DailyTriLogActivity extends Activity /*implements TextView.OnEditor
 			public void afterTextChanged(Editable s) {
 				int len = s.length();
 				morningTV.setText("M (" + String.valueOf(len) + " chars)");
+				currentTweetM = s.toString();
 			}
 			 public void beforeTextChanged(CharSequence s, int start, int count, int after){}
 		     public void onTextChanged(CharSequence s, int start, int before, int count){}
@@ -118,6 +119,8 @@ public class DailyTriLogActivity extends Activity /*implements TextView.OnEditor
 			public void afterTextChanged(Editable s) {
 				int len = s.length();
 				afternoonTV.setText("A (" + String.valueOf(len) + " chars)");
+				currentTweetA = s.toString();
+
 			}
 			 public void beforeTextChanged(CharSequence s, int start, int count, int after){}
 		     public void onTextChanged(CharSequence s, int start, int before, int count){}
@@ -128,6 +131,8 @@ public class DailyTriLogActivity extends Activity /*implements TextView.OnEditor
 			public void afterTextChanged(Editable s) {
 				int len = s.length();
 				eveningTV.setText("E (" + String.valueOf(len) + " chars)");
+				currentTweetE = s.toString();
+
 			}
 			public void beforeTextChanged(CharSequence s, int start, int count, int after){}
 		    public void onTextChanged(CharSequence s, int start, int before, int count){}
@@ -143,7 +148,11 @@ public class DailyTriLogActivity extends Activity /*implements TextView.OnEditor
 					 String s = v.getText().toString();
 					 currentTweetM = s;
 					 return true;
+				 } else if (actionId == EditorInfo.IME_ACTION_DONE) {
+					 String s = v.getText().toString();
+					 currentTweetM = s;
 				 }
+				
 				return false;
 			}
 		});
@@ -157,6 +166,9 @@ public class DailyTriLogActivity extends Activity /*implements TextView.OnEditor
 					 String s = v.getText().toString();
 					 currentTweetA = s;
 					 return true;
+				 } else if (actionId == EditorInfo.IME_ACTION_DONE) {
+					 String s = v.getText().toString();
+					 currentTweetA = s;
 				 }
 				return false;
 			}
@@ -171,6 +183,9 @@ public class DailyTriLogActivity extends Activity /*implements TextView.OnEditor
 					 String s = v.getText().toString();
 					 currentTweetE = s;
 					 return true;
+				 } else if (actionId == EditorInfo.IME_ACTION_DONE) {
+					 String s = v.getText().toString();
+					 currentTweetE = s;
 				 }
 				return false;
 			}
