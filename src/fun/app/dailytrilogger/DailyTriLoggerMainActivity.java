@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.CalendarView;
 import android.widget.Toast;
 import android.widget.CalendarView.OnDateChangeListener;
+import android.webkit.WebView;
 
 public class DailyTriLoggerMainActivity extends FragmentActivity {
 
@@ -41,6 +42,7 @@ public class DailyTriLoggerMainActivity extends FragmentActivity {
 
 
 	private DailyTriLogStore dailyTriLogStore;
+	private WebView loggerWebView;
 	private final static int LOGGER_ACTIVITY = 1;
 	private final static int SUMMARY_ACTIVITY = 1;
 	private boolean disableClearData;
@@ -199,8 +201,21 @@ public class DailyTriLoggerMainActivity extends FragmentActivity {
 			} // Section 2: Summary Reports of Logs
 			else {
 
-				View v = inflater.inflate(R.layout.activity_summarizer, container, false);
-				return v;
+				loggerWebView = new WebView(getActivity());
+				
+				
+				if (dailyTriLogStore != null) {
+					ArrayList<String> tablesArr = dailyTriLogStore.getWeeksDataAsHTMLTables();
+					StringBuilder sb = new StringBuilder("<!DOCTYPE html><html>\n<head>\n<title>Summary</title>\n<body>");
+					for (int z = tablesArr.size()-1; z >= tablesArr.size()-3 && z>=0; z--)
+					{
+						sb.append(tablesArr.get(z));
+						sb.append("<br><br>");
+					}
+				    sb.append("</body>\n</html>\n");
+				    loggerWebView.loadData(sb.toString(), "text/html", null);
+				}
+				return loggerWebView;
 			}
 		}
 

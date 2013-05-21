@@ -57,12 +57,13 @@
             <EditText
                 android:id="@+id/logMorning"
                 android:layout_weight="0.70"
+                android:textCursorDrawable="@null"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittext_bg"
                 android:gravity="top|left"
-                android:maxLength="50"
-                android:lines="3"
+                android:maxLength="130"
+                android:lines="5"
                 android:inputType="textMultiLine"
                 android:scrollHorizontally="false"
                 android:imeOptions="actionDone"
@@ -88,7 +89,7 @@
             <EditText
                 android:id="@+id/logAfternoon"
                 android:layout_weight="0.70"
-                
+                android:textCursorDrawable="@null"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittext_bg"
@@ -118,12 +119,12 @@
             <EditText
                 android:id="@+id/logEvening"
                 android:layout_weight="0.70"
-                
+                android:textCursorDrawable="@null"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittext_bg"
                 android:gravity="top|left"
-                android:lines="3"
+                android:lines="2"
                 android:inputType="textMultiLine"
                 android:maxLength="50"
                 android:scrollHorizontally="false"
@@ -147,10 +148,8 @@
 
             <Button
                 android:id="@+id/updateLogBtn"
-                android:layout_width="85dp"
+                android:layout_width="130dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
                 weight="1"
                 android:onClick="updateLogButtonClick"
                 android:text="@string/updateTxt" />

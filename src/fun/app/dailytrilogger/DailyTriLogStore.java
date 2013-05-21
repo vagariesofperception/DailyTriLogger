@@ -34,6 +34,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.Html;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 
@@ -113,7 +114,7 @@ public class DailyTriLogStore {
 		String strDate = String.valueOf(day) + "/" + String.valueOf(month) + "/" + String.valueOf(year);
 		return strDate;
 	}
-	
+
 
 	private String getDateAsStringKeyOffset(Date date) {
 		Calendar cal = Calendar.getInstance();
@@ -126,6 +127,11 @@ public class DailyTriLogStore {
 		return strDate;
 	}
 
+	private String getDateAsStringMMDDYYYY(Date date) {
+		String strDate = DateFormat.format("MMM dd, yyyy", date).toString();
+		return strDate;
+	}
+	
 	// THIS IS FUNDAMENTALLY UNSCALABLE!
 	// Figure out a way to append to existing json
 	// and not serialize everything on every append
@@ -155,15 +161,15 @@ public class DailyTriLogStore {
 		return saveMapAsJsonToFile(logMap, logDataFileName);
 	}
 	// in format dd/MM/YY
-		private Date getDateForString(String dateStr) {
-			String[] tokens = dateStr.split("/");
-			Calendar cal = Calendar.getInstance();
-			cal.set(Integer.parseInt(tokens[2]),
-					Integer.parseInt(tokens[1]),
-					Integer.parseInt(tokens[0]), 0, 0, 0);
-			return cal.getTime();
-		}
-		
+	private Date getDateForString(String dateStr) {
+		String[] tokens = dateStr.split("/");
+		Calendar cal = Calendar.getInstance();
+		cal.set(Integer.parseInt(tokens[2]),
+				Integer.parseInt(tokens[1]),
+				Integer.parseInt(tokens[0]), 0, 0, 0);
+		return cal.getTime();
+	}
+
 	private SortedSet<Date> getKeysAsSortedDateList(HashMap<String, ArrayList<String>> dateToLogMap) {
 		Set<String> keys = dateToLogMap.keySet();
 		SortedSet<Date> sSet = new TreeSet<Date>();
@@ -175,17 +181,30 @@ public class DailyTriLogStore {
 		}
 		return sSet;
 	}
-	
-	private String writeMapAsHTML(HashMap mMap, PrintWriter pw) {
-		
+
+	private Date addOneDay(Date dy) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(dy);
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH);
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+		cal.set(year, month, day, 0, 0, 0);
+		cal.add(Calendar.DATE, 1);
+		Date current = cal.getTime();
+		return current;
+	}
+
+	public ArrayList<String> getWeeksDataAsHTMLTables() {
 		// Get the sorted list of Dates
+		HashMap mMap = logMap;
 		HashMap<String, ArrayList<String>> dateToLogMap = (HashMap<String, ArrayList<String>>)mMap;
 		SortedSet<Date> sDateList =  getKeysAsSortedDateList(dateToLogMap);
-		
+		ArrayList<String> tablesArr = new ArrayList<String>();
+
 		// Corner Case
 		if (sDateList.size() == 0)
-			return new String("");
-		
+			return tablesArr;
+
 		// Get the first Sunday before first date
 		Iterator iter = sDateList.iterator();
 		Date d = (Date)iter.next();
@@ -193,20 +212,20 @@ public class DailyTriLogStore {
 		cal.setTime(d);
 		int offset = (cal.get(Calendar.DAY_OF_WEEK) - Calendar.SUNDAY)%7;
 		cal.add(Calendar.DAY_OF_YEAR, -offset);
-		
+
 		int count = offset;
-		String dateStr = getDateAsStringKeyOffset(cal.getTime());
-		
+		String dateStr = getDateAsStringMMDDYYYY(cal.getTime());
+
 		StringBuilder sb = new StringBuilder();
-		sb.append("<!DOCTYPE html><html>\n<head>\n<title>Daily Log Report</title>\n<body>");
+
 		sb.append("<table border=\"1\" style=\"background-color:#B0B0B0;\">\n");
 		sb.append("<tr>\n");
 		sb.append("<th>Week of " + dateStr +"</th>\n");
-		sb.append("<th> Morning </th>\n");
-		sb.append("<th> Afternoon </th>\n");
-		sb.append("<th> Evening </th>\n");
+		sb.append("<th> Work </th>\n");
+		sb.append("<th> Food </th>\n");
+		sb.append("<th> Reading </th>\n");
 		sb.append("</tr>\n");
-		
+
 		iter = sDateList.iterator();
 		while (iter.hasNext())
 		{
@@ -218,34 +237,116 @@ public class DailyTriLogStore {
 			sb.append("<td><b>");
 			sb.append(dStr);
 			sb.append("</b></td>\n");
-			
+
 			sb.append("<td>");
 			sb.append(aList.get(0));
 			sb.append("</td>\n");
-			
+
 			sb.append("<td>");
 			sb.append(aList.get(1));
 			sb.append("</td>\n");
-			
+
 			sb.append("<td>");
 			sb.append(aList.get(2));
 			sb.append("</td>\n");
-		    sb.append("</tr>\n");
-		    
-		    count++;
+			sb.append("</tr>\n");
+
+			count++;
 			if (count %7 == 0)
 			{
+				Date nextDy = addOneDay(dy);
 				sb.append("</table>\n");
 				sb.append("<br><br><br>\n");
-				sb.append("<table border=\"1\">\n");
+				tablesArr.add(sb.toString());
+				sb = new StringBuilder();
+				sb.append("<table border=\"1\" style=\"background-color:#B0B0B0;\">\n");
 				sb.append("<tr>\n");
-				sb.append("<th>Week of " + dateStr +"</th>\n");
-				sb.append("<th> Morning </th>\n");
-				sb.append("<th> Afternoon </th>\n");
-				sb.append("<th> Evening </th>\n");
+				sb.append("<th>Week of " + getDateAsStringMMDDYYYY(nextDy) +"</th>\n");
+				sb.append("<th> Work </th>\n");
+				sb.append("<th> Food </th>\n");
+				sb.append("<th> Reading </th>\n");
 				sb.append("</tr>\n");
 			}
-		
+
+		}
+		sb.append("</table>\n");
+		tablesArr.add(sb.toString());
+		return tablesArr;
+	}
+
+	private String writeMapAsHTML(HashMap mMap, PrintWriter pw) {
+
+		// Get the sorted list of Dates
+		HashMap<String, ArrayList<String>> dateToLogMap = (HashMap<String, ArrayList<String>>)mMap;
+		SortedSet<Date> sDateList =  getKeysAsSortedDateList(dateToLogMap);
+
+		// Corner Case
+		if (sDateList.size() == 0)
+			return new String("");
+
+		// Get the first Sunday before first date
+		Iterator iter = sDateList.iterator();
+		Date d = (Date)iter.next();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(d);
+		int offset = (cal.get(Calendar.DAY_OF_WEEK) - Calendar.SUNDAY)%7;
+		cal.add(Calendar.DAY_OF_YEAR, -offset);
+
+		int count = offset;
+		String dateStr = getDateAsStringKeyOffset(cal.getTime());
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("<!DOCTYPE html><html>\n<head>\n<title>Daily Log Report</title>\n<body>");
+
+
+		sb.append("<table border=\"1\" style=\"background-color:#B0B0B0;\">\n");
+		sb.append("<tr>\n");
+		sb.append("<th>Week of " + dateStr +"</th>\n");
+		sb.append("<th> Work </th>\n");
+		sb.append("<th> Food </th>\n");
+		sb.append("<th> Reading </th>\n");
+		sb.append("</tr>\n");
+
+		iter = sDateList.iterator();
+		while (iter.hasNext())
+		{
+			Date dy = (Date)iter.next();
+			String dStr = getDateAsStringKey(dy);
+			ArrayList<String> aList = dateToLogMap.get(dStr);
+			dStr = getDateAsStringKeyOffset(dy);
+			sb.append("<tr>\n");
+			sb.append("<td><b>");
+			sb.append(dStr);
+			sb.append("</b></td>\n");
+
+			sb.append("<td>");
+			sb.append(aList.get(0));
+			sb.append("</td>\n");
+
+			sb.append("<td>");
+			sb.append(aList.get(1));
+			sb.append("</td>\n");
+
+			sb.append("<td>");
+			sb.append(aList.get(2));
+			sb.append("</td>\n");
+			sb.append("</tr>\n");
+
+			count++;
+			if (count %7 == 0)
+			{
+				Date nextDy = addOneDay(dy);
+				sb.append("</table>\n");
+				sb.append("<br><br><br>\n");
+				sb.append("<table border=\"1\" style=\"background-color:#B0B0B0;\">\n");
+				sb.append("<tr>\n");
+				sb.append("<th>Week of " + getDateAsStringKeyOffset(nextDy) +"</th>\n");
+				sb.append("<th> Work </th>\n");
+				sb.append("<th> Food </th>\n");
+				sb.append("<th> Reading </th>\n");
+				sb.append("</tr>\n");
+			}
+
 		}
 		sb.append("</table>\n");
 		sb.append("</body>\n</html>\n");
@@ -253,7 +354,7 @@ public class DailyTriLogStore {
 		pw.write(currentLogStr);
 		return currentLogStr;
 	}
-	
+
 	// Adapted from : 
 	// https://github.com/stephendnicholas/Android-Apps/blob/master/Gmail%20Attacher/src/com/stephendnicholas/gmailattach/Utils.java
 	private File createHTMLFileForLog(Context context, String fileName, HashMap mMap) {
@@ -281,29 +382,29 @@ public class DailyTriLogStore {
 		String json = gson.toJson(mMap);
 		return json;
 	}
-	
+
 	// Adapted from : 
-		// https://github.com/stephendnicholas/Android-Apps/blob/master/Gmail%20Attacher/src/com/stephendnicholas/gmailattach/Utils.java
-		private File createJsonFileInCacheUsingMap(Context context, String fileName, HashMap mMap) {
-			File cFile = new File(context.getCacheDir() + File.separator + fileName);
-			try {
-				cFile.createNewFile();
-				FileOutputStream oStream = new FileOutputStream(cFile);
-				OutputStreamWriter osw = new OutputStreamWriter(oStream);
-				PrintWriter pw = new PrintWriter(osw);
+	// https://github.com/stephendnicholas/Android-Apps/blob/master/Gmail%20Attacher/src/com/stephendnicholas/gmailattach/Utils.java
+	private File createJsonFileInCacheUsingMap(Context context, String fileName, HashMap mMap) {
+		File cFile = new File(context.getCacheDir() + File.separator + fileName);
+		try {
+			cFile.createNewFile();
+			FileOutputStream oStream = new FileOutputStream(cFile);
+			OutputStreamWriter osw = new OutputStreamWriter(oStream);
+			PrintWriter pw = new PrintWriter(osw);
 
-				String jsonStr = getMapAsJsonString(mMap);
-				pw.print(jsonStr);
+			String jsonStr = getMapAsJsonString(mMap);
+			pw.print(jsonStr);
 
-				pw.flush();
-				pw.close();
-			}
-			catch (IOException e) {
-				Log.i(logTag, "IOException thrown");
-			}
-			return cFile;
+			pw.flush();
+			pw.close();
 		}
-	
+		catch (IOException e) {
+			Log.i(logTag, "IOException thrown");
+		}
+		return cFile;
+	}
+
 	public String getLogTextForEmail() {
 		if (currentLogStr == null)
 			currentLogStr = new String();
@@ -315,7 +416,7 @@ public class DailyTriLogStore {
 		createJsonFileInCacheUsingMap(context, logDataFileName, logMap);
 		return createHTMLFileForLog(context, htmlLogFileName, logMap);
 	}
-	
+
 
 	// Adapted from: http://stackoverflow.com/questions/9587559/android-intent-send-an-email-with-attachment
 	public void email (Context context, String emailTo, String emailCC, 
@@ -332,12 +433,12 @@ public class DailyTriLogStore {
 
 			ArrayList<Uri> uris = new ArrayList<Uri>();
 
-			
+
 			Uri logHTMLUri = Uri.parse("content://" + DailyTriLoggerContentProvider.auth + "/" + htmlLogFileName);
 			uris.add(logHTMLUri);
 			Uri logUri = Uri.parse("content://" + DailyTriLoggerContentProvider.auth + "/" + logDataFileName);
 			uris.add(logUri);
-			
+
 			emailIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
 			context.startActivity(emailIntent);
 		}
@@ -345,8 +446,8 @@ public class DailyTriLogStore {
 			Log.i(logTag, "Did not send email! No email activity found");
 		}
 	}
-	
+
 	public void clearAllData() {
-		
+
 	}
 }

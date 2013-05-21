@@ -5,9 +5,9 @@
     <string name="title_section1">Logger</string>
     <string name="title_daily_trilogger">Daily Tri Logger</string>
     <string name="logDate">Log Date</string>
-    <string name="logMorningStr">M</string>
-    <string name="logAfternoonStr">A</string>
-    <string name="logEveningStr">E</string>
+    <string name="logMorningStr">W</string>
+    <string name="logAfternoonStr">F</string>
+    <string name="logEveningStr">R</string>
     <string name="updateTxt">Update Log</string>
 
     <color name="daily_trilogger_color_bkgnd">#000000</color>

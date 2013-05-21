@@ -89,15 +89,15 @@ public class DailyTriLogActivity extends Activity /*implements TextView.OnEditor
 			currentTweetA = tweetS.get(1);
 			currentTweetE = tweetS.get(2);
 			if (currentTweetM != null && currentTweetM.length() > 0) {
-				morningTV.setText("M (" + String.valueOf(currentTweetM.length()) + " chars)");
+				morningTV.setText("W (" + String.valueOf(currentTweetM.length()) + " chars)");
 				morningTweet.setText(currentTweetM);
 			}
 			if (currentTweetA != null && currentTweetA.length() > 0) {
-				afternoonTV.setText("A (" + String.valueOf(currentTweetA.length()) + " chars)");
+				afternoonTV.setText("F (" + String.valueOf(currentTweetA.length()) + " chars)");
 				afternoonTweet.setText(currentTweetA);
 			}
 			if (currentTweetE != null && currentTweetE.length() > 0) {
-				eveningTV.setText("E (" + String.valueOf(currentTweetE.length()) + " chars)");
+				eveningTV.setText("R (" + String.valueOf(currentTweetE.length()) + " chars)");
 				eveningTweet.setText(currentTweetE);
 			}
 				
@@ -107,7 +107,7 @@ public class DailyTriLogActivity extends Activity /*implements TextView.OnEditor
 		morningTweet.addTextChangedListener(new TextWatcher() {
 			public void afterTextChanged(Editable s) {
 				int len = s.length();
-				morningTV.setText("M (" + String.valueOf(len) + " chars)");
+				morningTV.setText("W (" + String.valueOf(len) + " chars)");
 				currentTweetM = s.toString();
 			}
 			 public void beforeTextChanged(CharSequence s, int start, int count, int after){}
@@ -118,7 +118,7 @@ public class DailyTriLogActivity extends Activity /*implements TextView.OnEditor
 		afternoonTweet.addTextChangedListener(new TextWatcher() {
 			public void afterTextChanged(Editable s) {
 				int len = s.length();
-				afternoonTV.setText("A (" + String.valueOf(len) + " chars)");
+				afternoonTV.setText("F (" + String.valueOf(len) + " chars)");
 				currentTweetA = s.toString();
 
 			}
@@ -130,7 +130,7 @@ public class DailyTriLogActivity extends Activity /*implements TextView.OnEditor
 		eveningTweet.addTextChangedListener(new TextWatcher() {
 			public void afterTextChanged(Editable s) {
 				int len = s.length();
-				eveningTV.setText("E (" + String.valueOf(len) + " chars)");
+				eveningTV.setText("R (" + String.valueOf(len) + " chars)");
 				currentTweetE = s.toString();
 
 			}
@@ -201,7 +201,7 @@ public class DailyTriLogActivity extends Activity /*implements TextView.OnEditor
 		cal.set(currentYear, currentMonth, currentDay);
 		d = cal.getTime();
 		currentDate = d;
-		String strDate = DateFormat.format("MMMM dd, yyyy", d).toString();
+		String strDate = DateFormat.format("EEE MMMM dd, yyyy", d).toString();
 		logDateVal.setText(strDate);
 
 
@@ -218,42 +218,4 @@ public class DailyTriLogActivity extends Activity /*implements TextView.OnEditor
         setResult(RESULT_OK, intent);
         finish();
 	}
-
-	/*@Override
-	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-		boolean handled = false;
-		if (actionId == EditorInfo.IME_ACTION_DONE) {
-			String s = v.getText().toString();
-			Log.i(logTag, "Tweet:" + s + " on " + String.valueOf(currentMonth) + "/" + 
-					String.valueOf(currentDay) + "/" + String.valueOf(currentYear));
-			int id = v.getId();
-			try {
-				switch (id) {
-				case R.id.logMorning:
-					currentTweetM = s;
-					currentTweetA = afternoonTweet.getText().toString();
-					currentTweetE = eveningTweet.getText().toString();
-					break;
-				case R.id.logAfternoon:
-					currentTweetM = morningTweet.getText().toString();
-					currentTweetA = s;
-					currentTweetE = eveningTweet.getText().toString();
-					break;
-				case R.id.logEvening:
-					currentTweetM = morningTweet.getText().toString();
-					currentTweetA = afternoonTweet.getText().toString();
-					currentTweetE = s;
-					break;
-				default:
-					break;
-				}
-			}
-			catch (NumberFormatException e) {
-				currentTweetM = morningTweet.getText().toString();
-				currentTweetA = afternoonTweet.getText().toString();
-				currentTweetE = eveningTweet.getText().toString();
-			}
-		}
-		return handled;
-	}*/
 }

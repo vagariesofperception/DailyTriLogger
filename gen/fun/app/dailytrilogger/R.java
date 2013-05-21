@@ -20,13 +20,10 @@ public final class R {
         public static final int ic_launcher=0x7f020001;
     }
     public static final class id {
-        public static final int backupData=0x7f080014;
-        public static final int clearData=0x7f080016;
-        public static final int daily_trilogger_datepicker=0x7f080011;
-        public static final int daily_trilogger_summary_report=0x7f080012;
-        public static final int datePickerTbl=0x7f080010;
-        public static final int emailId=0x7f080013;
-        public static final int loadData=0x7f080015;
+        public static final int backupData=0x7f080012;
+        public static final int clearData=0x7f080014;
+        public static final int emailId=0x7f080011;
+        public static final int loadData=0x7f080013;
         public static final int logAfternoon=0x7f08000a;
         public static final int logAfternoonTV=0x7f080009;
         public static final int logDate=0x7f080004;
@@ -39,6 +36,7 @@ public final class R {
         public static final int logMorning=0x7f080008;
         public static final int logMorningTV=0x7f080007;
         public static final int loggerTbl=0x7f080003;
+        public static final int loggerWebView=0x7f080010;
         public static final int pager=0x7f080000;
         public static final int pager_title_strip=0x7f080001;
         public static final int summaryLayout=0x7f080002;
